@@ -34,8 +34,8 @@ public class PasswordConfirmation extends HttpServlet {
 		if(passwords.contains(request.getParameter("pwd")))
 			out.print(String.format("<p>failure,This password already exist - %s</p>", request.getParameter("pwd")));
 		else {
-			FileWriter write = new FileWriter(new File("passwords.txt"));
-			write.append(request.getParameter("pwd"));
+			FileWriter write = new FileWriter(new File("/home/abbagownianush/eclipse-workspace/notices-two/src/passwords.txt"));
+			write.write(request.getParameter("pwd"));
 			out.print("Successful Attempt");
 			write.close();
 		}
