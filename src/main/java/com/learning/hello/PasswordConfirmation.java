@@ -1,7 +1,6 @@
 package com.learning.hello;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,9 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-/**
- * Servlet implementation class PasswordConfirmation
- */
 public class PasswordConfirmation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
