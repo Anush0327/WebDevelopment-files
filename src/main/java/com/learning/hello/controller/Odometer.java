@@ -1,131 +1,113 @@
 package com.learning.hello.controller;
 
-import com.learning.hello.exception.NonAscendingReadingException;
-import com.learning.hello.exception.ReadingException;
-import com.learning.hello.exception.ReadingSizeMismatchException;
-
-public class Odometer {
-
-  private static final String DIGITS = "123456789";
-
-  private int reading;
-
-  private static int getMinReading(int size) {
-    return Integer.valueOf(DIGITS.substring(0, size));
-  }
-
-  private static int getMaxReading(int size) {
-    return Integer.valueOf(DIGITS.substring(DIGITS.length() - size, DIGITS.length()));
-  }
-
-  private static int getSize(int reading) {
-    return String.valueOf(reading).length();
-  }
-  
-  public int getSize() {
-    return getSize(this.reading);
-  }
-
-  public Odometer(int size) {
-    reading = getMinReading(size);
-  }
-
-  public Odometer(Odometer copy) {
-    reading = copy.reading;
-  }
-
-  public int getReading() {
-    return reading;
-  }
-
-  /**
-   * Reading must match the size of the existing reading.
-   * All digits in the reading must be in strictly ascending
-   * order left to right.
-
-   * @param reading the reading to set
-   * @throws ReadingException if reading doesn't satisfy the above validations
-   */
-  public void setReading(int reading) throws ReadingException {
-    if (!isAscending(reading)) {
-      throw new NonAscendingReadingException("Reading has to have all its digits "
-          + "in strictly ascending order. (got: " + reading + ")");
-    } else if (getSize(reading) != getSize(this.reading)) {
-      throw new ReadingSizeMismatchException("Reading has to be "+ "the same size as the previous reading. "+ "(Existing: " + this.reading + " got : " + reading + ")");
-    } else {
-      this.reading = reading;
-    }
-  }
-
-  @Override
-  public String toString() {
-    return "(" + reading + ")";
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (!(other instanceof Odometer)) {
-      return false;
-    }
-    Odometer otherOdo = (Odometer) other;
-    return otherOdo.reading == this.reading;
-  }
-
-  /** "Ascending" here means strictly ascending.
-
-   * @return true iff the digits are in strictly ascending order
-   */
-  public static boolean isAscending(int reading) {
-    if (reading < 10) {
-      return true;
-    }
-    if (reading % 10 <= (reading / 10) % 10) {
-      return false;
-    }
-    return isAscending(reading / 10);
-  }
-  
-  /**
-   * This mutates the reading.
-   */
-  public void increment() {
-    do {
-      if (reading == getMaxReading(getSize(reading))) {
-        reading = getMinReading(getSize(reading));
-      } else {
-        reading++;
-      }
-    } while (!isAscending(reading));
-  }
-
-  /**
-   * This doesn't mutate the reading.
-
-   * @return a new Odometer object that has the next reading to this.
-   */
-  public Odometer nextReading() {
-    Odometer temp = new Odometer(this);
-    temp.increment();
-    return temp;
-  }
-
-  /**
-   * This mutates the reading.
-   */
-  public void decrementReading() {
-    do {
-      if (reading == getMinReading(getSize(reading))) {
-        reading = getMaxReading(getSize(reading));
-      } else {
-        reading--;
-      }
-    } while (!isAscending(reading));
-  }
-
-  public void reset() {
-    this.reading = getMinReading(getSize(this.reading));
-  }
-  
-
-  
+public class Odometer{
+	public int reading;
+	public Odometer(int length) {
+		int sum=1;
+		for(int i=2;i<=length;i++) {
+			sum=sum*10;
+			sum+=i;
+		}
+		reading=sum;
+	}
+	public Odometer(int reading,int length) {
+		this.reading = reading;
+	}
+	public Odometer(Odometer o) {
+		reading=o.reading;
+	}
+	public int highestReading() {
+		int length = this.size();
+		int read=0;
+		for(int i=9-length+1;i<=9;i++)
+		{
+			read=read*10;
+			read+=i;
+		}
+		return read;
+	}
+	public int lowestReading() {
+		int length = this.size();
+		int read=0;
+		for(int i=1;i<=length;i++)
+		{
+			read=read*10;
+			read+=i;
+		}
+		return read;
+		//--module-path /path/to/javafx-sdk-20/lib --add-modules javafx.controls,javafx.fxml
+	}
+	public int size() {
+		return  String.valueOf(reading).length(); 
+	}
+	public boolean isAscending() {
+		int temp = reading;
+		int prev=10;
+		int curr=0;
+		while(temp>0) {
+			curr=temp%10;
+			if(curr>=prev)
+				return false;
+			else {
+				prev = curr;
+				temp/=10;
+			}
+		}
+		return true;
+	}
+	public void incrementReading() {
+		do {
+			if(reading>=this.highestReading()) {
+				reading = this.lowestReading();
+				break;
+			}
+			reading++;
+		}while(!this.isAscending()); 
+	}
+	public Odometer nextReading() {
+		Odometer newReading = new Odometer(this);
+		do {
+			if(newReading.reading>=this.highestReading()) {
+				newReading.reading = this.lowestReading();
+				return newReading;
+			}
+			newReading.reading++;
+		}while(!newReading.isAscending()); 
+		return newReading;
+	}
+	public void decrementReading() {
+		do {
+			if(reading<=this.lowestReading()) {
+				reading = this.highestReading();
+				break;
+			}
+			reading--;
+		}while(!this.isAscending()); 
+	}
+	public Odometer prevReading() {
+		Odometer newReading = new Odometer(this);
+		do {
+			if(newReading.reading<=this.lowestReading()) {
+				newReading.reading = this.highestReading();
+				return newReading;
+			}
+			newReading.reading--;
+		}while(!newReading.isAscending()); 
+		return newReading;
+	}
+	public void reset() {
+		reading = lowestReading();
+	}
+	@Override
+	public String toString() {
+		return String.valueOf(reading);
+	}
+	public Integer getReading() {
+		// TODO Auto-generated method stub
+		return reading;
+	}
+	public void setReading(int i) {
+		// TODO Auto-generated method stub
+		reading = i;
+	}
 }

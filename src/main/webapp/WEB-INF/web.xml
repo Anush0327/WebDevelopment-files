@@ -59,14 +59,24 @@
     <servlet-name>HighLowServlet</servlet-name>
     <url-pattern>/HighLowServlet</url-pattern>
   </servlet-mapping>
-  
   <servlet>
-  	<servlet-name>OdometerServlet</servlet-name>
-  	<servlet-class>.com.learning.hello.OdometerServlet</servlet-class>
+    <description></description>
+    <display-name>OdometerServlet</display-name>
+    <servlet-name>OdometerServlet</servlet-name>
+    <servlet-class>com.learning.hello.OdometerServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>OdometerServlet</servlet-name>
-  	<url-pattern>/OdometerServlet</url-pattern>
+    <servlet-name>OdometerServlet</servlet-name>
+    <url-pattern>/OdometerServlet</url-pattern>
   </servlet-mapping>
-  
+  <servlet>
+    <description></description>
+    <display-name>MangathaServlet</display-name>
+    <servlet-name>MangathaServlet</servlet-name>
+    <servlet-class>com.learing.mangatha.MangathaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MangathaServlet</servlet-name>
+    <url-pattern>/MangathaServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
