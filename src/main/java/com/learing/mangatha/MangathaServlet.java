@@ -44,21 +44,31 @@ public class MangathaServlet extends HttpServlet {
 	    final IWebExchange webExchange = 
 	        this.application.buildExchange(req, resp);
 	    final WebContext ctx = new WebContext(webExchange);
+	    ctx.setVariable("shouldDisableDeck", mc.isGameOver());
 	    if("Submit".equals(req.getParameter("action"))) {
 	    	mc.addPlayers(req.getParameter("bet1"),req.getParameter("card1"),req.getParameter("inOut1"),"Player1");
 	    	mc.addPlayers(req.getParameter("bet2"),req.getParameter("card2"),req.getParameter("inOut2"),"Player2");
-	    }
-	    if("Deck".equals(req.getParameter("Deck"))) {
+	    	outcard = Character.toString(0x1F0A0);
 	    	
-	    	if(mc.isFlag())
+	    	incard = Character.toString(0x1F0A0);
+	    }
+	    if(("🂠").equals(req.getParameter("Deck"))) {
+	    	
+	    	if(mc.isFlag()) {
 	    		incard = mc.PlayCard();
-	    	else
+	    		outcard = Character.toString(0x1F0A0);
+	    	}
+	    	else {
+	    		incard = Character.toString(0x1F0A0);
 	    		outcard = mc.PlayCard();
+	    	}
 	    }
 	    ctx.setVariable("inCard", incard);
 	    ctx.setVariable("outCard", outcard);
-	    if(mc.validate() != "Place next card") {
-	    	ctx.setVariable("msg", mc.validate());
+	    String val = mc.validate();
+	    if( (val != "Place next card" )|| mc.isEmpty()) {
+	    	ctx.setVariable("msg", val);
+	    	ctx.setVariable("shouldDisableDeck", mc.isGameOver());
 	    }
 	    templateEngine.process("mangatha",ctx,out);   
 	}
@@ -68,7 +78,10 @@ public class MangathaServlet extends HttpServlet {
 		var out = resp.getWriter();
 	    final IWebExchange webExchange = 
 	        this.application.buildExchange(req, resp);
-	    final WebContext ctx = new WebContext(webExchange);
+	    final WebContext ctx = new WebContext(webExchange);	  
+	    ctx.setVariable("shouldDisableDeck", mc.isGameOver());
+	    ctx.setVariable("inCard",Character.toString(0x1F0A0));
+	    ctx.setVariable("outCard",Character.toString(0x1F0A0));
 	    templateEngine.process("mangatha", ctx,out);
 	}
 }

@@ -8,6 +8,7 @@ public class MangathaController {
 	private Player p1;
 	private Player p2;
 	private boolean flag = false;
+	private boolean gameOver = false;
 	public MangathaController() {
 		deck = new Deck();
 		deck.shuffle();
@@ -24,7 +25,7 @@ public class MangathaController {
 			flag = true;
 		else
 			flag = false;
-		return deck.removeFromTop().toString();
+		return deck.getFromTop().toString();
 	}
 	
 	public void addPlayers(String bet,String card,String pos,String playerId) {
@@ -34,29 +35,47 @@ public class MangathaController {
 			p2.setPlayer(bet,card,pos);
 	}
 	 public String validate() {
-		 String val = deck.getFromTop().toString();
+		 String val = deck.removeFromTop().toString();
 		 if(val.equals(p1.getChoosenCard().toString())) {
 			 if(isFlag()==p1.isPosition()) {
 			 p1.setCash(p2.getBet());
+			 gameOver = true;
 			 return "Player1 Wins -> " + p1.getCash();
 			 }
-			 else
+			 else {
+				 gameOver = true;
 				 return String.format("Vendor Wins -> %d", (p1.getBet()+p2.getBet()));
+			 }
 		 }
 		 else if(val.equals(p2.getChoosenCard().toString()) ) {
 			 if(isFlag() == p2.isPosition()) {
 			 p2.setCash(p1.getBet());
+			 gameOver = true;
 			 return "Player2 Wins -> " + p2.getCash();
 			 }
 			 else {
+				 gameOver = true;
 				 return String.format("Vendor Wins -> %d",(p1.getBet()+p2.getBet()));
 			 }
 		 }
-		 else
+		 else {
+			 gameOver = false;
 			 return "Place next card";
+		 }
 	 }
 
 	public boolean isFlag() {
 		return flag;
+	}
+
+	public boolean isEmpty() {
+		if(deck.isEmpty())
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
 	}
 }

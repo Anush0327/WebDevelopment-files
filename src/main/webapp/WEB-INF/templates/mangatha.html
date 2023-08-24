@@ -28,6 +28,11 @@
         text-align: center;
 
     }
+    
+    .cards{
+		
+		text-align: center;
+	}
 
     .displayCard{
 
@@ -38,58 +43,23 @@
     body{
 
         padding-bottom: 30%;
+        background-color:#FFF5E0;
 
     }
 
     .Out{
-
-            color: #000000;
-
-            background-color: #ee588d;
-
-            font-size: 28px;
-
-            border: 2px solid #000205;
-
-            padding: 50px 25px;
-
-            cursor: pointer;
-
-            width: 8%;
-
-            float: right;
-
+		font-size: 100px;
             margin-right: 30%;
-
-       
-
+            float: right;
     }
-
-    .In{
-
-        color: #000000;
-
-            background-color: #ee588d;
-
-            font-size: 28px;
-
-            border: 2px solid #000205;
-
-            padding: 50px 25px;
-
-            cursor: pointer;
-
-            float: left;
-
-            width: 8%;
-
-            margin-left: 30%;
-
-    }
-
+	.In{
+		font-size: 100px;
+		margin-left: 30%;
+		float: left;
+	}
     .deckCard{
 
-        margin-bottom: 4%;
+        margin-bottom: 10%;
 
     }
 
@@ -98,7 +68,18 @@
         height: 100%;
 
     }
-
+    .print{
+		font-size: 25px;
+		margin-bottom: 10px;
+	}
+	.selection{
+		text-align: center;
+	}
+	.one{
+		margin-top: 0px;
+		font-size: 100px;
+	}
+	
  
 
     button {
@@ -125,54 +106,64 @@
 
         }
         input[class=deck]{
-			 color: #000000;
-
-            background-color: #ee588d;
-
-            font-size: 28px;
-
-            border: 2px solid #000205;
-
-            padding: 50px 25px;
-
-            cursor: pointer;
-
-            width: 125px;
-            
-            height: 200px;
-
+            font-size: 100px;
 		}
+		.glass {
+      backdrop-filter: blur(20px);
+      font-size: 100px;
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0.5;
+      }
 	</style>
 
 <body>
+	<div class="selection">
 	<form method="post" action="">
+		<h2>Welcome to Mangatha Game!</h2><br>
+		<label><b>Player1: </b></label>
 		<input type="text" name="bet1" class="bet1">
 		<input type="text" name="card1" class="card1">
-		<input type="text" name="inOut1" class="inOut1">
-		<br>
+		<select name="inOut1" class="inOut1">
+			<option value="in">in</option>
+			<option value="out">out</option>
+		</select>
+		<br><br>
+		<label><b>Player2: </b></label>
 		<input type="text" name="bet2" class="bet2">
 		<input type="text" name="card2" class="card2">
-		<input type="text" name="inOut2" class="inOut2">
-		<br>
+		<select name="inOut2" class="inOut1">
+			<option value="in">in</option>
+			<option value="out">out</option>
+		</select>
+		<br><br>
 		<input type="submit" name="action" value="Submit">
 		
 		<input type="submit" name="reset" value="reset">
 	</form>
+	<br><br>
+	</div>
 	<div class="displayCard">
 		<form method="post" action="">
-			<input type="submit" name="Deck" value="Deck" class="deck">
+			<div th:if="${shouldDisableDeck} == true">
+			<input type="submit" name="Deck" value="🂠" class="glass" disabled>
+			</div>
+			<div th:if="${shouldDisableDeck} == false">
+			<input type="submit" name="Deck" value="🂠" class="glass">
+			</div>
 		</form>
-	
+			<p class="msg"><b><span th:text="${msg}"> </span></b></p>
 		<div class="In">
-			<p>IN</p>
-			<p><span th:text="${inCard}">IN</span></p>
+			<p class="print">IN</p>
+			<p class="one"><span th:text="${inCard}">IN</span></p>
 		</div>
 		<div class="Out">
-			<p>OUT</p>
-			<p><span th:text="${outCard}">OUT</span></p>
+			<p class="print">OUT</p>
+			<p class="one"><span th:text="${outCard}">OUT</span></p>
 		</div>
 	</div>
-	<p><span th:text="${msg}"> </span></p>
+	<div>
+
+	</div>
 </body>
 
 </html>
