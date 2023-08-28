@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<style>
+body, h1, h2, h3, p, table, th, td, form, label, input {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: Arial, sans-serif;
+  vertical-align: baseline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Style the form inputs */
+form {
+	width: auto;
+  margin-top: 20px;
+}
+
+label, input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+input[type="text"] {
+  width: auto;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  width: auto;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Style the edit/delete form buttons */
+td form {
+  flex-direction: column;
+}
+
+input[name="button"] {
+  margin-top: 5px;
+  padding: 3px 8px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius:1%;
+  }
+
+form[name="editor"]{
+	width: auto;
+}
+
+</style>
+<body>
+    <table>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>editor</th>
+        </tr>
+        <tr th:each="student, studentStat : ${Student}">
+            <td th:text="${studentStat.count}" hidden>1</td>
+            <td th:text="${student.rank}">1</td>
+            <td th:text="${student.name}">Anush</td>
+            <td th:text="${student.score}">90</td>
+            <td>
+                <form method="post" action="" name="editor">
+                    <input type="hidden" th:name="'studentIndex'" th:value="${studentStat.index}">
+                    <input type="text" th:name="'newName'" placeholder="New Name">
+                    <input type="text" th:name="'newScore'" placeholder="New Score">
+                    <input type="submit" value="Edit" name="button">
+                    <input type="submit" value="Delete" name="button">
+                </form>
+            </td>
+        </tr>
+    </table>
+    <form method="post" action="">
+        <label for="name">Enter Name:</label>
+        <input type="text" name="name">
+        <label for="score">Enter Score</label>
+        <input type="text" name="score">
+        <input type="submit" name="submit" value="enter">
+    </form>
+</body>
+</html>

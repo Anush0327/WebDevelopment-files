@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Greetings!</title>
+</head>
+<style>
+	.guessWord{
+		border: 2rem;
+		border-color: black;
+	}
+	input{
+		width:20px;
+		height:10px;
+	}
+	.submit{
+		width: auto;
+		height: auto;
+	}
+	
+</style>
+<body>
+	<h1>Wordle</h1>
+	<div class="guessWord">
+	<p th:text="${guess}">The latest guess</p></div>
+	<form method="post">
+		<input name="feed1" type="text">
+		<input name="feed2" type="text">
+		<input name="feed3" type="text">
+		<input name="feed4" type="text">
+		<input name="feed5" type="text">
+		<input type="submit" class="submit" value="Feedback!">
+	</form>
+</body>
+</html>
